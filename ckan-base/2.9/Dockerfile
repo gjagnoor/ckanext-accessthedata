@@ -85,9 +85,9 @@ RUN addgroup -g 92 -S ckan && \
 RUN mkdir -p $CKAN_STORAGE_PATH && \
     chown -R ckan:ckan $CKAN_STORAGE_PATH
 
-COPY 2.9/setup/prerun.py ${APP_DIR}
-COPY 2.9/setup/supervisor.worker.conf /etc/supervisord.d/worker.conf
-COPY 2.9/setup/start_ckan.sh ${APP_DIR}
+COPY setup/prerun.py ${APP_DIR}
+COPY setup/supervisor.worker.conf /etc/supervisord.d/worker.conf
+COPY setup/start_ckan.sh ${APP_DIR}
 ADD https://raw.githubusercontent.com/ckan/ckan/${GIT_BRANCH}/wsgi.py ${APP_DIR}
 
 # Create entrypoint directory for children image scripts

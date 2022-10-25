@@ -85,7 +85,7 @@ def check_solr_connection(retry=None):
 
 def init_db():
 
-    db_command = ["ckan", "-c", ckan_ini, "db", "init"]
+    db_command = ["ckan", "-c", ckan_ini, "db", "init", "--host", "0.0.0.0"]
     print("[prerun] Initializing or upgrading db - start")
     try:
         subprocess.check_output(db_command, stderr=subprocess.STDOUT)
@@ -108,7 +108,7 @@ def init_datastore_db():
         print("[prerun] Skipping datastore initialization")
         return
 
-    datastore_perms_command = ["ckan", "-c", ckan_ini, "datastore", "set-permissions"]
+    datastore_perms_command = ["ckan", "-c", ckan_ini, "datastore", "set-permissions", "--host", "0.0.0.0"]
 
     connection = psycopg2.connect(conn_str)
     cursor = connection.cursor()
@@ -157,7 +157,7 @@ def create_sysadmin():
     if name and password and email:
 
         # Check if user exists
-        command = ["ckan", "-c", ckan_ini, "user", "show", name]
+        command = ["ckan", "-c", ckan_ini, "user", "show", name, "--host", "0.0.0.0"]
 
         out = subprocess.check_output(command)
         if b"User:None" not in re.sub(b"\s", b"", out):
@@ -180,7 +180,7 @@ def create_sysadmin():
         print("[prerun] Created user {0}".format(name))
 
         # Make it sysadmin
-        command = ["ckan", "-c", ckan_ini, "sysadmin", "add", name]
+        command = ["ckan", "-c", ckan_ini, "sysadmin", "add", name, "--host", "0.0.0.0"]
 
         subprocess.call(command)
         print("[prerun] Made user {0} a sysadmin".format(name))
